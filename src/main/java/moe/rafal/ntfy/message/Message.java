@@ -10,13 +10,16 @@ import org.jetbrains.annotations.Nullable;
 @Immutable
 public interface Message {
 
-  String getTitle();
-
   String getText();
 
   @Default
   default boolean hasMarkdown() {
     return false;
+  }
+
+  @Default
+  default @Nullable String getTitle() {
+    return null;
   }
 
   @Default

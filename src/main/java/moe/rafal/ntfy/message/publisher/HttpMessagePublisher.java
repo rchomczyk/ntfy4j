@@ -12,11 +12,14 @@ class HttpMessagePublisher implements MessagePublisher {
   public void publish(final String topicUri, final Message message) {
     RequestBodyEntity request = post(topicUri)
         .contentType("text/plain; charset=UTF-8")
-        .header("Title", message.getTitle())
         .header("Tags", String.join(",", message.getTags()))
         .header("Markdown", String.valueOf(message.hasMarkdown()))
         .header("Priority", message.getPriority().name().toLowerCase(Locale.ROOT))
         .body(message.getText());
+
+    if (message.getTitle() != null) {
+      request = request.header("Title", message.getTitle());
+    }
 
     if (message.getClickUri() != null) {
       request = request.header("Click", message.getClickUri());
