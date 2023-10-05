@@ -12,21 +12,21 @@ class HttpMessagePublisher implements MessagePublisher {
   public void publish(final String topicUri, final Message message) {
     RequestBodyEntity request = post(topicUri)
         .contentType("text/plain; charset=UTF-8")
-        .header("Tags", String.join(",", message.getTags()))
+        .header("Tags", String.join(",", message.tags()))
         .header("Markdown", String.valueOf(message.hasMarkdown()))
-        .header("Priority", message.getPriority().name().toLowerCase(Locale.ROOT))
-        .body(message.getText());
+        .header("Priority", message.priority().name().toLowerCase(Locale.ROOT))
+        .body(message.text());
 
-    if (message.getTitle() != null) {
-      request = request.header("Title", message.getTitle());
+    if (message.title() != null) {
+      request = request.header("Title", message.title());
     }
 
-    if (message.getClickUri() != null) {
-      request = request.header("Click", message.getClickUri());
+    if (message.clickUri() != null) {
+      request = request.header("Click", message.clickUri());
     }
 
-    if (message.getAttachUri() != null) {
-      request = request.header("Attach", message.getAttachUri());
+    if (message.attachUri() != null) {
+      request = request.header("Attach", message.attachUri());
     }
 
     request.asEmpty();
